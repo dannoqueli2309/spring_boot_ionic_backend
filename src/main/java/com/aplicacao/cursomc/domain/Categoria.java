@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 /**
  * 
  * @author Dan Familia
@@ -26,6 +28,7 @@ public class Categoria implements Serializable{
 	private Integer id;
 	private String nome;
 	
+	@JsonManagedReference // para o jsom gerenciar a refencia já que nos queremos encontrar os produtos refentes a categorias
 	@ManyToMany(mappedBy = "categorias")// passando o atributo onde já foi feito o mapeamento 
 	private List<Produto> produtos = new ArrayList<>();
 
