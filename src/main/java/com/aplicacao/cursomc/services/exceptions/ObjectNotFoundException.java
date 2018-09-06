@@ -9,7 +9,6 @@ public class ObjectNotFoundException extends RuntimeException{
 	}
 	
 	public ObjectNotFoundException(String msg, Throwable cause) {
-		// passa a mensagem e a causa que ocorreu o erro
 		super(msg,cause);
 	}
 	
