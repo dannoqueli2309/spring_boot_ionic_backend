@@ -2,7 +2,8 @@ package com.aplicacao.cursomc.domain;
 
 import java.io.Serializable;
 import java.util.Date;
-
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -11,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -22,8 +24,6 @@ private static final long serialVersionUID = 1L;
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 private Integer id;
 
-private Date instanteDate;
-
 @OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
 private Pagamento pagamento;
 
@@ -34,6 +34,11 @@ private Cliente cliente;
 @ManyToOne
 @JoinColumn(name = "endereco_de_entrega_id")
 private Endereco enderecoDeEntrega;
+
+private Date instanteDate;
+
+@OneToMany(mappedBy = "itemPedido.pedido")
+private Set<ItemPedido> items = new HashSet<>();
 
 public Pedido() {
 }
@@ -94,6 +99,14 @@ public int hashCode() {
 	return result;
 }
 
+public Set<ItemPedido> getItems() {
+	return items;
+}
+
+public void setItems(Set<ItemPedido> items) {
+	this.items = items;
+}
+
 @Override
 public boolean equals(Object obj) {
 	if (this == obj)
@@ -110,6 +123,7 @@ public boolean equals(Object obj) {
 		return false;
 	return true;
 }
+
 
 
 }

@@ -2,7 +2,9 @@ package com.aplicacao.cursomc.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 @Entity
@@ -20,14 +23,19 @@ public class Produto implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
 	private String nome;
+
 	private Double preco;
 
 	@JsonBackReference // Ele diz que no outro lado da associação já foi criado o gerenciamento do json
 	@ManyToMany
 	@JoinTable(name = "PRODUTO_CATEGORIA", joinColumns = @JoinColumn(name = "produto_id"), inverseJoinColumns = @JoinColumn(name = "categoria_id"))
 	private List<Categoria> categorias = new ArrayList<>();
-
+	
+	@OneToMany(mappedBy = "itemPedido.produto")
+	private Set<ItemPedido> items = new HashSet<>();
+	
 	public Produto() {
 
 	}
@@ -38,7 +46,12 @@ public class Produto implements Serializable {
 		this.nome = nome;
 		this.preco = preço;
 	}
-
+	
+	public List<Pedido> getPedidos(){
+		List<Pedido> listaPedidos = new ArrayList<>();
+		items.forEach(x-> listaPedidos.add(x.getPedidos()));
+		return listaPedidos;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -75,6 +88,13 @@ public class Produto implements Serializable {
 		this.categorias = categorias;
 	}
 
+	public Set<ItemPedido> getItems() {
+		return items;
+	}
+	
+	public void setItems(Set<ItemPedido> items) {
+		this.items = items;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -99,5 +119,6 @@ public class Produto implements Serializable {
 			return false;
 		return true;
 	}
+
 
 }
