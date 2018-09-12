@@ -2,7 +2,6 @@ package com.aplicacao.cursomc.domain;
 
 import java.io.Serializable;
 
-import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
@@ -34,7 +33,6 @@ public class ItemPedido implements Serializable{
 		this.quantidade = quantidade;
 		this.preco = preco;
 	}
-	
 	@JsonIgnore
 	public Pedido getPedidos() {
 		return itemPedido.getPedido();
