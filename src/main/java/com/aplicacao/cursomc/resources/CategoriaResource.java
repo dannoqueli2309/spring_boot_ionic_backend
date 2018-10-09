@@ -23,11 +23,11 @@ public class CategoriaResource {
 	private CategoriaService service;
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET) // protocolo HTTP tipo GET passando id
-	public ResponseEntity<?> find(@PathVariable Integer id) {
-		Categoria categoriaService = service.buscar(id);
+	public ResponseEntity<Categoria> find(@PathVariable Integer id) {
+		Categoria categoriaService = service.find(id);
 		return ResponseEntity.ok().body(categoriaService);
 	}
-	
+
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insertCategoria(@RequestBody Categoria categoria) {
 		// passar a camada do serviço
@@ -37,4 +37,12 @@ public class CategoriaResource {
 		return ResponseEntity.created(uri).build();
 	}
 	
+	@RequestMapping(value = "/{id}",method = RequestMethod.PUT)
+	public ResponseEntity<Void> update(@RequestBody Categoria categoria, @PathVariable Integer id){
+		categoria.setId(id);
+		categoria = service.update(categoria);
+		return ResponseEntity.noContent().build();
+	}
+	
+
 }
