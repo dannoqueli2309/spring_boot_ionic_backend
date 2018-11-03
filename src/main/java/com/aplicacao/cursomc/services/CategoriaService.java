@@ -2,11 +2,16 @@ package com.aplicacao.cursomc.services;
 
 import java.util.Optional;
 
+import javax.validation.ConstraintViolationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.aplicacao.cursomc.domain.Categoria;
 import com.aplicacao.cursomc.repositories.CategoriaRepository;
+import com.aplicacao.cursomc.services.exceptions.DataIntegrateException;
 import com.aplicacao.cursomc.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -28,5 +33,14 @@ public class CategoriaService {
 	public Categoria update(Categoria categoria) {
 		find(categoria.getId());
 		return repo.save(categoria);
+	}
+
+	public void delete(Integer id) {
+		find(id);
+		try {
+			repo.deleteById(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DataIntegrateException("Não é possivel excluir uma categoria que possua produtos vinculados");
+		}
 	}
 }
