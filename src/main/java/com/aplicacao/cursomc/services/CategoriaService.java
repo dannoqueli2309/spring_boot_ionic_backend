@@ -1,5 +1,6 @@
 package com.aplicacao.cursomc.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.ConstraintViolationException;
@@ -42,5 +43,9 @@ public class CategoriaService {
 		} catch (DataIntegrityViolationException e) {
 			throw new DataIntegrateException("Não é possivel excluir uma categoria que possua produtos vinculados");
 		}
+	}
+	
+	public List<Categoria> findAll() {
+		return repo.findAll();
 	}
 }
