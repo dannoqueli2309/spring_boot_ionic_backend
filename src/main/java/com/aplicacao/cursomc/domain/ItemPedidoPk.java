@@ -6,7 +6,6 @@ import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-// Chave composta da classe ItemPedido 
 @Embeddable
 public class ItemPedidoPk implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -34,6 +33,7 @@ public class ItemPedidoPk implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -42,6 +42,7 @@ public class ItemPedidoPk implements Serializable{
 		result = prime * result + ((produto == null) ? 0 : produto.hashCode());
 		return result;
 	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
