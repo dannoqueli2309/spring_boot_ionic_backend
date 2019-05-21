@@ -30,7 +30,7 @@ public class CategoriaResource {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET) // protocolo HTTP tipo GET passando id
 	public ResponseEntity<Categoria> find(@PathVariable Integer id) {
-		Categoria categoriaService = service.find(id);
+		Categoria categoriaService = service.buscar(id);
 		return ResponseEntity.ok().body(categoriaService);
 	}
 

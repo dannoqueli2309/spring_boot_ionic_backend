@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.CollectionTable;
@@ -49,7 +50,7 @@ public class Cliente implements Serializable{
 		this.nome = nome;
 		this.email = email;
 		this.cpfOrCnpj = cpfOrCnpj;
-		this.tipo = tipo.getCod();
+		this.tipo = Objects.isNull(tipo)? null : tipo.getCod();
 	}
 	
 	public Set<String> getTelefones() {

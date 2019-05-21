@@ -41,11 +41,4 @@ public class CategoriaDTO implements Serializable {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-
-	public static CategoriaDTO converterCategoriaDto(Categoria categoria) {
-		CategoriaDTO categoriaDto = new CategoriaDTO();
-		categoriaDto.setId(categoria.getId());
-		categoriaDto.setNome(categoria.getNome());
-		return categoriaDto;
-	}
 }
