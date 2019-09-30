@@ -1,6 +1,7 @@
 package com.aplicacao.cursomc.domain;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -35,7 +36,7 @@ public Pagamento() {
 public Pagamento(Integer id, EstadoPagamento estado, Pedido pedido) {
 	super();
 	this.id = id;
-	this.estado = estado.getCod();
+	this.estado = Objects.isNull(estado) ? null : estado.getCod();
 	this.pedido = pedido;
 }
 

@@ -1,6 +1,5 @@
 package com.aplicacao.cursomc;
 
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
@@ -68,6 +67,7 @@ public class CursomcApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+		
 		Categoria cat1 = new Categoria(null, "Informatica");
 		Categoria cat2 = new Categoria(null, "Escritorio");
 		Categoria cat3 = new Categoria(null, "Cama mesa e banho");
@@ -75,7 +75,6 @@ public class CursomcApplication implements CommandLineRunner {
 		Categoria cat5 = new Categoria(null, "Jardinagem");
 		Categoria cat6 = new Categoria(null, "Decoração");
 		Categoria cat7 = new Categoria(null, "Perfumaria");
-		
 		
 		Produto prod1 = new Produto(null,"Computador",2000.00);
 		Produto prod2 = new Produto(null,"Impressora",800.00);
