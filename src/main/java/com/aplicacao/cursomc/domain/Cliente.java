@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -30,7 +31,7 @@ public class Cliente implements Serializable{
 	private String cpfOrCnpj;
 	private Integer tipo;
 	
-	@OneToMany(mappedBy = "cliente")
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
 	private List<Endereco> endereco = new ArrayList<>();
 	
 	@ElementCollection
@@ -73,36 +74,41 @@ public class Cliente implements Serializable{
 	public Integer getId() {
 		return id;
 	}
+	
 	public void setId(Integer id) {
 		this.id = id;
 	}
+	
 	public String getNome() {
 		return nome;
 	}
+	
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+	
 	public String getEmail() {
 		return email;
 	}
+	
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
 	public String getCpfOrCnpj() {
 		return cpfOrCnpj;
 	}
+	
 	public void setCpfOrCnpj(String cpfOrCnpj) {
 		this.cpfOrCnpj = cpfOrCnpj;
 	}
+
 	public TipoCliente getTipo() {
 		return TipoCliente.toEnum(tipo);
 	}
 	
 	public void setTipo(TipoCliente tipo) {
 		this.tipo = tipo.getCod();
-	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
 	}
 	public List<Pedido> getPedidos() {
 		return pedidos;
@@ -112,6 +118,9 @@ public class Cliente implements Serializable{
 		this.pedidos = pedidos;
 	}
 	
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 	
 	@Override
 	public int hashCode() {

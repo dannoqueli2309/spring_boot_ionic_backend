@@ -95,7 +95,6 @@ public class ClienteService {
 	}
 
 	private Endereco getEnderecoComCidadePeloClienteDtoEnderecoTelefone(ClienteDtoEnderecoTelefone clienteDTO, Cliente cliente) {
-		
 		Cidade cidade = cidadeRepository.findById(clienteDTO.getCidadeId()).get();
 		return new Endereco(null,clienteDTO.getLogradouro(), clienteDTO.getNumero(), clienteDTO.getComplemento(), clienteDTO.getBairro(), clienteDTO.getCep(), cidade, cliente);
 	}
