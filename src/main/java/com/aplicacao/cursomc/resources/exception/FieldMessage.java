@@ -2,17 +2,17 @@ package com.aplicacao.cursomc.resources.exception;
 
 import java.io.Serializable;
 
-public class FiledMessage implements Serializable{
+public class FieldMessage implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
 	private String fieldName;
 	private String message;
 	
-	public FiledMessage() {
+	public FieldMessage() {
 	}
 	
-	public FiledMessage(String feldName, String message) {
+	public FieldMessage(String feldName, String message) {
 		super();
 		this.fieldName = feldName;
 		this.message = message;

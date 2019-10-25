@@ -5,7 +5,7 @@ public enum TipoCliente {
 	PESSOAFISICA(1,"Pessoa Fisíca"),
 	PESSOJURIDICA(2,"Pessoa Juridica");
 	
-	private int cod;
+	private Integer cod;
 	private String descriptions;
 	
 	private TipoCliente(int cod, String descricao){
@@ -13,7 +13,7 @@ public enum TipoCliente {
 		this.descriptions = descricao;
 	}
 
-	public int getCod() {
+	public Integer getCod() {
 		return cod;
 	}
 
