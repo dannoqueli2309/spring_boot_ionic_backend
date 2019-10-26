@@ -60,6 +60,18 @@ public class Cliente implements Serializable {
 		this.tipo = Objects.isNull(tipo) ? null : tipo.getCod();
 	}
 
+	public Cliente(String nome, String email, String cpfOrCnpj, TipoCliente tipo) {
+		this.nome = nome;
+		this.email = email;
+		this.cpfOrCnpj = cpfOrCnpj;
+		this.tipo = Objects.isNull(tipo) ? null : tipo.getCod();
+	}
+
+	public Cliente(String nome, String email) {
+		this.nome = nome;
+		this.email = email;
+	}
+
 	public Set<String> getTelefones() {
 		return telefones;
 	}

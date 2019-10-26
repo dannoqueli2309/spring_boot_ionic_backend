@@ -28,18 +28,19 @@ public class ClienteService {
 
 	@Autowired
 	private ClienteRepository clienteRespository;
-	
+
 	@Autowired
 	private CidadeRepository cidadeRepository;
-	
+
 	@Autowired
 	private EnderecoRepository enderecoRepository;
-	
+
 	public Cliente buscar(Integer id) {
-		Optional<Cliente>clientes = clienteRespository.findById(id);
-		return clientes.orElseThrow(()-> new ObjectNotFoundException("Objeto não encontrado Id"+ id +", Tipo: "+ Cliente.class.getName()));
+		Optional<Cliente> clientes = clienteRespository.findById(id);
+		return clientes.orElseThrow(() -> new ObjectNotFoundException(
+				"Objeto não encontrado Id" + id + ", Tipo: " + Cliente.class.getName()));
 	}
-	
+
 	public Cliente insert(Cliente cliente) {
 		cliente.setId(null);
 		clienteRespository.save(cliente);
@@ -49,7 +50,7 @@ public class ClienteService {
 
 	public Cliente update(Cliente cliente) {
 		Cliente clienteNew = buscar(cliente.getId());
-		updateData(clienteNew,cliente);
+		updateData(clienteNew, cliente);
 		return clienteRespository.save(clienteNew);
 	}
 
@@ -61,48 +62,50 @@ public class ClienteService {
 			throw new DataIntegrateException("Não é possivel excluir porque a entidades relacionadas");
 		}
 	}
-	
+
 	public List<Cliente> findAll() {
 		return clienteRespository.findAll();
 	}
-	
+
 	public Page<Cliente> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
-		PageRequest pageRequest  = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return clienteRespository.findAll(pageRequest);
 	}
-	
+
 	public Cliente fromDTO(ClienteDTO clienteDTO) {
-		return new Cliente(clienteDTO.getId(), clienteDTO.getNome(), clienteDTO.getEmail(), null,null);
-	}
-	
-	public Cliente fromDTO(ClienteDtoEnderecoTelefone clienteDTO) {
-		Cliente cliente = new Cliente(null, clienteDTO.getNome(), clienteDTO.getEmail(), clienteDTO.getCpfCnpj(), TipoCliente.toEnum(clienteDTO.getTipoCliente()));
-		
-		cliente.getEndereco().add(getEnderecoComCidadePeloClienteDtoEnderecoTelefone(clienteDTO, cliente));		
-		
-		cliente.getTelefones().add(clienteDTO.getTelefone());
-		
-		if(Objects.nonNull(clienteDTO.getTelefone2())) {
-			cliente.getTelefones().add(clienteDTO.getTelefone2());
-		}
-		
-		if(Objects.nonNull(clienteDTO.getTelefone3())) {
-			cliente.getTelefones().add(clienteDTO.getTelefone3());
-		}
-		
-		return cliente;
-		
+		return new Cliente(clienteDTO.getNome(), clienteDTO.getEmail());
 	}
 
-	private Endereco getEnderecoComCidadePeloClienteDtoEnderecoTelefone(ClienteDtoEnderecoTelefone clienteDTO, Cliente cliente) {
+	public Cliente fromDTO(ClienteDtoEnderecoTelefone clienteDTO) {
+		Cliente cliente = new Cliente(clienteDTO.getNome(), clienteDTO.getEmail(), clienteDTO.getCpfCnpj(),
+				TipoCliente.toEnum(clienteDTO.getTipoCliente()));
+
+		cliente.getEndereco().add(getEnderecoComCidadePeloClienteDtoEnderecoTelefone(clienteDTO, cliente));
+
+		cliente.getTelefones().add(clienteDTO.getTelefone());
+
+		if (Objects.nonNull(clienteDTO.getTelefone2())) {
+			cliente.getTelefones().add(clienteDTO.getTelefone2());
+		}
+
+		if (Objects.nonNull(clienteDTO.getTelefone3())) {
+			cliente.getTelefones().add(clienteDTO.getTelefone3());
+		}
+
+		return cliente;
+
+	}
+
+	private Endereco getEnderecoComCidadePeloClienteDtoEnderecoTelefone(ClienteDtoEnderecoTelefone clienteDTO,
+			Cliente cliente) {
 		Cidade cidade = cidadeRepository.findById(clienteDTO.getCidadeId()).get();
-		return new Endereco(null,clienteDTO.getLogradouro(), clienteDTO.getNumero(), clienteDTO.getComplemento(), clienteDTO.getBairro(), clienteDTO.getCep(), cidade, cliente);
+		return new Endereco(null, clienteDTO.getLogradouro(), clienteDTO.getNumero(), clienteDTO.getComplemento(),
+				clienteDTO.getBairro(), clienteDTO.getCep(), cidade, cliente);
 	}
 
 	private void updateData(Cliente clienteNew, Cliente clienteOld) {
 		clienteNew.setNome(clienteOld.getNome());
 		clienteNew.setEmail(clienteOld.getEmail());
 	}
-	
-	
+
 }
