@@ -1,6 +1,7 @@
 package com.aplicacao.cursomc.domain;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -10,22 +11,23 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 // Classe de associação das classes Pedidos e Produto
 
 @Entity
-public class ItemPedido implements Serializable{
+public class ItemPedido implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@JsonIgnore
 	@EmbeddedId
 	private ItemPedidoPk itemPedido = new ItemPedidoPk();
-	
+
 	private Double desconto;
 	private Integer quantidade;
 	private Double preco;
-	
+	private BigDecimal subTotal;
+
 	public ItemPedido() {
 	}
 
-	public ItemPedido(Pedido pedido ,Produto produto,Double desconto, Integer quantidade, Double preco) {
+	public ItemPedido(Pedido pedido, Produto produto, Double desconto, Integer quantidade, Double preco) {
 		super();
 		itemPedido.setPedido(pedido);
 		itemPedido.setProduto(produto);
@@ -33,17 +35,17 @@ public class ItemPedido implements Serializable{
 		this.quantidade = quantidade;
 		this.preco = preco;
 	}
-	
+
 	@JsonIgnore
 	public Pedido getPedidos() {
 		return itemPedido.getPedido();
 	}
-	
+
 	public Produto getProdutos() {
 		return itemPedido.getProduto();
-		
+
 	}
-	
+
 	public Double getDesconto() {
 		return desconto;
 	}
@@ -75,7 +77,11 @@ public class ItemPedido implements Serializable{
 	public void setItemPedido(ItemPedidoPk itemPedido) {
 		this.itemPedido = itemPedido;
 	}
-	
+
+	public BigDecimal getSubTotal() {
+		return this.subTotal = BigDecimal.valueOf((this.preco - this.desconto) * this.quantidade);
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -100,5 +106,5 @@ public class ItemPedido implements Serializable{
 			return false;
 		return true;
 	}
-	
+
 }
