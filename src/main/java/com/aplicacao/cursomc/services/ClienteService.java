@@ -78,7 +78,7 @@ public class ClienteService {
 
 	public Cliente fromDTO(ClienteDtoEnderecoTelefone clienteDTO) {
 		Cliente cliente = new Cliente(clienteDTO.getNome(), clienteDTO.getEmail(), clienteDTO.getCpfCnpj(),
-				TipoCliente.toEnum(clienteDTO.getTipoCliente()));
+				TipoCliente.toEnum(clienteDTO.getTipo()));
 
 		cliente.getEndereco().add(getEnderecoComCidadePeloClienteDtoEnderecoTelefone(clienteDTO, cliente));
 

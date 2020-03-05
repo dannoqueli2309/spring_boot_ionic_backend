@@ -16,8 +16,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import org.hibernate.loader.custom.Return;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
@@ -33,7 +31,7 @@ public class Pedido implements Serializable {
 	private Pagamento pagamento;
 
 	@ManyToOne
-	@JoinColumn(name = "cliente_id")
+	@JoinColumn(name = "cliente_id",referencedColumnName = "id")
 	private Cliente cliente;
 
 	@ManyToOne
@@ -43,8 +41,8 @@ public class Pedido implements Serializable {
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
 	private Date instanteDate;
 
-	@OneToMany(mappedBy = "itemPedido.pedido")
-	private Set<ItemPedido> items = new HashSet<>();
+	@OneToMany(mappedBy = "id.pedido")
+	private Set<ItemPedido> itens = new HashSet<>();
 	
 	private BigDecimal total;
 
@@ -102,7 +100,7 @@ public class Pedido implements Serializable {
 	public BigDecimal getTotal() {
 		BigDecimal soma = BigDecimal.ZERO;
 		
-		for (ItemPedido itemPedido : items) {
+		for (ItemPedido itemPedido : itens) {
 			soma = soma.add(itemPedido.getSubTotal());
 		};
 
@@ -117,12 +115,12 @@ public class Pedido implements Serializable {
 		return result;
 	}
 
-	public Set<ItemPedido> getItems() {
-		return items;
+	public Set<ItemPedido> getItens() {
+		return itens;
 	}
 
-	public void setItems(Set<ItemPedido> items) {
-		this.items = items;
+	public void setItens(Set<ItemPedido> itens) {
+		this.itens = itens;
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package com.aplicacao.cursomc.domain;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
@@ -7,27 +8,28 @@ import javax.persistence.Entity;
 import com.aplicacao.cursomc.domain.enums.EstadoPagamento;
 
 @Entity
-public class PagamentoComCartao extends Pagamento implements Serializable{
+@JsonTypeName("pagamentoComCartao")
+public class PagamentoComCartao extends Pagamento implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	
-	private Integer numeroDeParcelas;
+  private static final long serialVersionUID = 1L;
 
-	public PagamentoComCartao() {
-	
-	}
+  private Integer numeroDeParcelas;
 
-	public PagamentoComCartao(Integer id, EstadoPagamento estado, Pedido pedido,Integer numeroDeParcelas) {
-		super(id, estado, pedido);
-		this.setNumeroDeParcelas(numeroDeParcelas);
-	}
+  public PagamentoComCartao() {
 
-	public Integer getNumeroDeParcelas() {
-		return numeroDeParcelas;
-	}
+  }
 
-	public void setNumeroDeParcelas(Integer numeroDeParcelas) {
-		this.numeroDeParcelas = numeroDeParcelas;
-	}
-	
+  public PagamentoComCartao(Integer id, EstadoPagamento estado, Pedido pedido, Integer numeroDeParcelas) {
+    super(id, estado, pedido);
+    this.setNumeroDeParcelas(numeroDeParcelas);
+  }
+
+  public Integer getNumeroDeParcelas() {
+    return numeroDeParcelas;
+  }
+
+  public void setNumeroDeParcelas(Integer numeroDeParcelas) {
+    this.numeroDeParcelas = numeroDeParcelas;
+  }
+
 }

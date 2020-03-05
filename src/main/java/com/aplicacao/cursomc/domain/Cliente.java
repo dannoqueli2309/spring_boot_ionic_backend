@@ -1,5 +1,6 @@
 package com.aplicacao.cursomc.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -27,14 +28,11 @@ public class Cliente implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-
 	private String nome;
 
 	@Column(unique = true)
 	private String email;
-
 	private String cpfOrCnpj;
-
 	private Integer tipo;
 
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
@@ -136,6 +134,11 @@ public class Cliente implements Serializable {
 		this.pedidos = pedidos;
 	}
 
+	@JsonDeserialize
+	public void setTipo(Integer tipo) {
+		this.tipo = tipo;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -163,10 +166,6 @@ public class Cliente implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}
-
-	public void setTipo(Integer tipo) {
-		this.tipo = tipo;
 	}
 
 }

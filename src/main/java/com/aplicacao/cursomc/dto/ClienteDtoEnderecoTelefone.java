@@ -25,7 +25,7 @@ public class ClienteDtoEnderecoTelefone implements Serializable{
 	@NotEmpty(message="preenchimento obrigatorio")
 	private String cpfCnpj;
 
-	private Integer tipoCliente;
+	private Integer tipo;
 
 	private Integer id;
 
@@ -79,12 +79,12 @@ public class ClienteDtoEnderecoTelefone implements Serializable{
 		this.cpfCnpj = cpfCnpj;
 	}
 
-	public Integer getTipoCliente() {
-		return tipoCliente;
+	public Integer getTipo() {
+		return tipo;
 	}
 
-	public void setTipoCliente(Integer tipoCliente) {
-		this.tipoCliente = tipoCliente;
+	public void setTipo(Integer tipo) {
+		this.tipo = tipo;
 	}
 
 	public Integer getId() {

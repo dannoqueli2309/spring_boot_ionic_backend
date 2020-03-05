@@ -1,5 +1,8 @@
 package com.aplicacao.cursomc.services.validation;
 
+import static com.aplicacao.cursomc.domain.enums.TipoCliente.PESSOAFISICA;
+import static com.aplicacao.cursomc.domain.enums.TipoCliente.PESSOJURIDICA;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -54,16 +57,16 @@ public class ClienteInsertValidator implements ConstraintValidator<ClienteInsert
 	}
 
 	private void validationClienteType(ClienteDtoEnderecoTelefone clienteDtoEnderecoTelefone, List<FieldMessage> list) {
-		if (Objects.isNull(clienteDtoEnderecoTelefone.getTipoCliente())) {
+		if (Objects.isNull(clienteDtoEnderecoTelefone.getTipo())) {
 			list.add(new FieldMessage("tipo", "tipo não pode ser nulo"));
 		}
 
-		if (TipoCliente.PESSOAFISICA.getCod().equals(clienteDtoEnderecoTelefone.getTipoCliente())
+		if (PESSOAFISICA.getCod().equals(clienteDtoEnderecoTelefone.getTipo())
 				&& !CpfAndCnpjUtils.isValidCPF(clienteDtoEnderecoTelefone.getCpfCnpj())) {
 			list.add(new FieldMessage("cpfCnpj", "cpf invalido"));
 		}
 
-		if (TipoCliente.PESSOJURIDICA.getCod().equals(clienteDtoEnderecoTelefone.getTipoCliente())
+		if (PESSOJURIDICA.getCod().equals(clienteDtoEnderecoTelefone.getTipo())
 				&& !CpfAndCnpjUtils.isValidCNPJ(clienteDtoEnderecoTelefone.getCpfCnpj())) {
 			list.add(new FieldMessage("cpfCnpj", "cnpj invalido"));
 		}
