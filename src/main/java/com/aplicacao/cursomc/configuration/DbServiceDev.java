@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
@@ -32,8 +33,8 @@ import com.aplicacao.cursomc.repositories.PedidoRepository;
 import com.aplicacao.cursomc.repositories.ProdutoRepository;
 
 @Service
-@Profile("test")
-public class DbServiceTest implements DbService{
+@Profile("dev")
+public class DbServiceDev implements DbService{
 
   @Autowired
   private CategoriaRepository categoriaRepository;
@@ -61,8 +62,18 @@ public class DbServiceTest implements DbService{
 
   @Autowired
   private ItemPedidosRepository itemPedidoRepository;
+  
+  @Value("${spring.jpa.hibernate.ddl-auto}")
+  private String strategy;
+
+  private static final String RETURN_PROPERTIES_DDL = "create";
 
   public void populateDataBase() throws ParseException{
+		
+		if (!RETURN_PROPERTIES_DDL.equals(strategy)) {
+			return;
+		}
+		
     Categoria informatica = new Categoria(null, "Informatica");
     Categoria escritorio = new Categoria(null, "Escritorio");
     Categoria camaMesaEBanho = new Categoria(null, "Cama mesa e banho");
@@ -70,6 +81,7 @@ public class DbServiceTest implements DbService{
     Categoria jardinagem = new Categoria(null, "Jardinagem");
     Categoria decoracao = new Categoria(null, "Decoração");
     Categoria perfumaria = new Categoria(null, "Perfumaria");
+    
 
     Produto prod1 = new Produto(null, "Computador", 2000.00);
     Produto prod2 = new Produto(null, "Impressora", 800.00);
