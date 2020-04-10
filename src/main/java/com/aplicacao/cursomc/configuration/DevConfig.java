@@ -34,7 +34,7 @@ import com.aplicacao.cursomc.repositories.ProdutoRepository;
 
 @Service
 @Profile("dev")
-public class DbServiceDev implements DbService{
+public class DevConfig implements DbService{
 
   @Autowired
   private CategoriaRepository categoriaRepository;

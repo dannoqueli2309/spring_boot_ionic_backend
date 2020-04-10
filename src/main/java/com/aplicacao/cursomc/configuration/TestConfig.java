@@ -33,7 +33,7 @@ import com.aplicacao.cursomc.repositories.ProdutoRepository;
 
 @Service
 @Profile("test")
-public class DbServiceTest implements DbService{
+public class TestConfig implements DbService{
 
   @Autowired
   private CategoriaRepository categoriaRepository;

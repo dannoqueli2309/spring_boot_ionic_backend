@@ -22,53 +22,62 @@ import com.aplicacao.cursomc.services.exceptions.ObjectNotFoundException;
 @Service
 public class PedidoService {
 
-	@Autowired
-	private PedidoRepository repository;
+  @Autowired
+  private PedidoRepository repository;
 
-	@Autowired
-	private PagamentoRepository pagamentoRepository;
+  @Autowired
+  private PagamentoRepository pagamentoRepository;
 
-	@Autowired
-	private ProdutoService produtoService;
+  @Autowired
+  private ProdutoService produtoService;
 
-	@Autowired
-	private ItemPedidosRepository itemPedidosRepository;
+  @Autowired
+  private ItemPedidosRepository itemPedidosRepository;
 
-	@Autowired
-	private ClienteService clienteService;
+  @Autowired
+  private ClienteService clienteService;
 
-	public Pedido buscar(Integer id){
-		Optional<Pedido> pedidos = repository.findById(id);
-		return pedidos.orElseThrow(()-> new ObjectNotFoundException("Objeto não encontrado Id"+id+", Tipo: "+Pedido.class.getName()));
-	}
+  @Autowired
+  private EmailService emailService;
 
-	public Pedido insert(Pedido pedido) {
-		pedido.setId(null);
-		pedido.setInstanteDate(new Date());
-		pedido.setCliente(clienteService.buscar(pedido.getCliente().getId()));
-		pedido.getPagamento().setEstado(EstadoPagamento.PENDENTE);
-		pedido.getPagamento().setPedido(pedido);
 
-		if (pedido.getPagamento() instanceof PagamentoComBoleto) {
-			PagamentoComBoleto pagamentoComBoleto = (PagamentoComBoleto) pedido.getPagamento();
-			preencherPagamentoComBoleto(pagamentoComBoleto, pedido.getInstanteDate());
-		}
+  public Pedido buscar(Integer id) {
+    Optional<Pedido> pedidos = repository.findById(id);
+    return pedidos.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado Id" + id + ", Tipo: " + Pedido.class.getName()));
+  }
 
-		pedido = repository.save(pedido);
-		pagamentoRepository.save(pedido.getPagamento());
+  public Pedido insert(Pedido pedido) {
+    pedido.setId(null);
+    pedido.setInstanteDate(new Date());
+    pedido.setCliente(clienteService.buscar(pedido.getCliente().getId()));
+    pedido.getPagamento().setEstado(EstadoPagamento.PENDENTE);
+    pedido.getPagamento().setPedido(pedido);
 
-		for (ItemPedido ip : pedido.getItens()) {
-			Produto produto = produtoService.buscar(ip.getProdutos().getId());
-			ip.setProduto(produto);
-			ip.setDesconto(0.0);
-			ip.setPreco(produto.getPreco());
-			ip.setPedidos(pedido);
-		}
-		itemPedidosRepository.saveAll(pedido.getItens());
+    if (pedido.getPagamento() instanceof PagamentoComBoleto) {
+      PagamentoComBoleto pagamentoComBoleto = (PagamentoComBoleto) pedido.getPagamento();
+      preencherPagamentoComBoleto(pagamentoComBoleto, pedido.getInstanteDate());
+    }
 
-		System.out.println("Pedido"+pedido);
+    pedido = repository.save(pedido);
+    pagamentoRepository.save(pedido.getPagamento());
 
-		return pedido;
+    for (ItemPedido ip : pedido.getItens()) {
+      Produto produto = produtoService.buscar(ip.getProdutos().getId());
+      ip.setProduto(produto);
+      ip.setDesconto(0.0);
+      ip.setPreco(produto.getPreco());
+      ip.setPedidos(pedido);
+    }
+    itemPedidosRepository.saveAll(pedido.getItens());
 
-	}
+    System.out.println("Pedido" + pedido);
+    sendEmailPedido(pedido);
+    return pedido;
+
+  }
+
+  private void sendEmailPedido(Pedido pedido) {
+    emailService.sendOrderConfirmationEmail(pedido);
+  }
+
 }
