@@ -7,11 +7,11 @@ QUITADO(2,"Quitado"),
 CANCELADO(3,"Cancelado");
 	
 	private int cod;
-	private String descriptions;
+	private String descricao;
 	
 	private EstadoPagamento (int cod, String descricao){
 		this.cod = cod;
-		this.descriptions = descricao;
+		this.descricao = descricao;
 	}
 
 	public int getCod() {
@@ -22,12 +22,12 @@ CANCELADO(3,"Cancelado");
 		this.cod = cod;
 	}
 
-	public String getDescriptions() {
-		return descriptions;
+	public String getDescricao() {
+		return descricao;
 	}
 
-	public void setDescriptions(String descriptions) {
-		this.descriptions = descriptions;
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 	public static EstadoPagamento toEnum(Integer cod) {
 		if(cod == null) {

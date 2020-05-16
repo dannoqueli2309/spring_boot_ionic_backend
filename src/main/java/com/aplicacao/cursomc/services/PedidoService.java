@@ -77,7 +77,7 @@ public class PedidoService {
   }
 
   private void sendEmailPedido(Pedido pedido) {
-    emailService.sendOrderConfirmationEmail(pedido);
+    emailService.sendOrderConfirmationHtmlEmail(pedido);
   }
 
 }
