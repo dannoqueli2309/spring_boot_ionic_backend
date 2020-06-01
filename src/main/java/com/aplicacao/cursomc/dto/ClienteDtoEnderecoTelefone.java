@@ -27,6 +27,9 @@ public class ClienteDtoEnderecoTelefone implements Serializable{
 
 	private Integer tipo;
 
+	@NotEmpty(message = "preenchimento obrigatorio")
+	private String senha;
+
 	private Integer id;
 
 	@NotEmpty(message="preenchimento obrigatorio")
@@ -167,5 +170,11 @@ public class ClienteDtoEnderecoTelefone implements Serializable{
 		this.cidadeId = cidadeId;
 	}
 
+	public String getSenha() {
+		return senha;
+	}
 
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
 }
