@@ -1,5 +1,6 @@
 package com.aplicacao.cursomc.configuration;
 
+import com.aplicacao.cursomc.domain.enums.Perfil;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -135,7 +136,6 @@ public class DevConfig implements DbService{
     estadoRepository.saveAll(Arrays.asList(est1, est2));
     cidadesRepository.saveAll(Arrays.asList(c1, c2, c3));
     Cliente cli1 = new Cliente("Maria Slva", "dannoqueli@gmail.com", "36378912377", TipoCliente.PESSOAFISICA,bCryptPasswordEncoder.encode("123"));
-
     cli1.getTelefones().addAll(Arrays.asList("27363323", "938383030"));
 
     Endereco e1 = new Endereco(null, "rua Flores", "300", "apto 303", "Jardim", "38220834", c1, cli1);
@@ -143,9 +143,15 @@ public class DevConfig implements DbService{
 
     cli1.getEndereco().addAll(Arrays.asList(e1, e2));
 
-    clienteRepository.saveAll(Arrays.asList(cli1));
+    Cliente cli2 = new Cliente("Geovana Cristina", "geovana@gmail.com", "42041486031", TipoCliente.PESSOAFISICA, bCryptPasswordEncoder.encode("123"));
+    cli2.getTelefones().addAll(Arrays.asList("21212122", "989897654"));
+    cli2.addPerfil(Perfil.ADMIN);
 
-    enderecoRepository.saveAll(Arrays.asList(e1, e2));
+    Endereco e3 = new Endereco(null, "rua lourival das rosas", "300", "apto 303", "Jardim", "06124135", c1, cli2);
+    cli2.getEndereco().add(e3);
+
+    clienteRepository.saveAll(Arrays.asList(cli1, cli2));
+    enderecoRepository.saveAll(Arrays.asList(e1, e2, e3));
 
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 

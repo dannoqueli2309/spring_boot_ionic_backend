@@ -1,5 +1,6 @@
 package com.aplicacao.cursomc.domain;
 
+import com.aplicacao.cursomc.domain.enums.Perfil;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -8,11 +9,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -43,24 +46,20 @@ public class Cliente implements Serializable {
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
 	private List<Endereco> endereco = new ArrayList<>();
 
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "TELEFONE")
 	private Set<String> telefones = new HashSet<>();
+
+	@ElementCollection
+  @CollectionTable(name = "PERFIL")
+	private Set<Integer> perfil = new HashSet<>();
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "cliente")
 	private List<Pedido> pedidos = new ArrayList<>();
 
 	public Cliente() {
-
-	}
-
-	public Cliente(Integer id, String nome, String email, String cpfOrCnpj, TipoCliente tipo) {
-		this.id = id;
-		this.nome = nome;
-		this.email = email;
-		this.cpfOrCnpj = cpfOrCnpj;
-		this.tipo = Objects.isNull(tipo) ? null : tipo.getCod();
+      addPerfil(Perfil.CLIENT);
 	}
 
 	public Cliente(String nome, String email, String cpfOrCnpj, TipoCliente tipo, String senha) {
@@ -69,6 +68,7 @@ public class Cliente implements Serializable {
 		this.cpfOrCnpj = cpfOrCnpj;
 		this.tipo = Objects.isNull(tipo) ? null : tipo.getCod();
 		this.senha = senha;
+    addPerfil(Perfil.CLIENT);
 	}
 
 	public Cliente(String nome, String email) {
@@ -153,11 +153,18 @@ public class Cliente implements Serializable {
 		this.tipo = tipo;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
+  public Set<Perfil> getPerfil() {
+    return perfil
+        .stream()
+        .map(Perfil::toEnum)
+        .collect(Collectors.toSet());
+  }
 
-	@Override
+  public void addPerfil(Perfil codePerfil){
+	  this.perfil.add(codePerfil.getCod());
+  }
+
+  @Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
