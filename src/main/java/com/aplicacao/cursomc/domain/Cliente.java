@@ -50,7 +50,7 @@ public class Cliente implements Serializable {
 	@CollectionTable(name = "TELEFONE")
 	private Set<String> telefones = new HashSet<>();
 
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
   @CollectionTable(name = "PERFIL")
 	private Set<Integer> perfil = new HashSet<>();
 
